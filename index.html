@@ -107,6 +107,18 @@
     });
   });
 </script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    // Se l'app è già installata, nasconde il messaggio
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+      const helpMsg = document.getElementById('installHelpMessage');
+      if (helpMsg) {
+        helpMsg.style.display = 'none';
+      }
+    }
+  });
+</script>
 </body>
 </html>
 
