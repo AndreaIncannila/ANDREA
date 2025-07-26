@@ -1,0 +1,26 @@
+
+body { font-family: sans-serif; padding: 20px; background: #f8f9fa; color: #333; }
+h1 { font-size: 1.5em; text-align: center; margin-bottom: 30px; }
+.input-group { margin-bottom: 15px; }
+input, select, button {
+  padding: 10px;
+  font-size: 1em;
+  margin-top: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.result {
+  margin-top: 20px;
+  padding: 15px;
+  background: #fff;
+  border: 1px solid #ccc;
+}
+
+
+#installBtn {
+  padding: 12px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

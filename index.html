@@ -1,25 +1,112 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guida Pergola</title>
-    <link rel="icon" href="icon-128.png" type="image/png">
+  <meta charset="utf-8" />
+  <title>MP TENDE - Andrea Incannila</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="icon.png" type="image/png" />
+  <link rel="stylesheet" href="style.css">
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+  </script>
 </head>
 <body>
-    <h1>Guida Pergola</h1>
-    <p>Applicazione con icona MP Tende.</p>
+  <img src="logo_app.png" alt="Logo MP Tende" style="display:block;margin:0 auto;width:80px;height:80px;"><h1>Guida Pergola</h1>
+  <button id="installBtn" style="display:none; background-color: #4CAF50; color: white; margin-top: 20px;">Scarica App</button>
+
+  <div class="input-group">
+    <label for="tipo">Tipologia Pergola:</label>
+    <select id="tipo">
+      <option value="modular">Modular</option>
+      <option value="modulina">Modulina</option>
+      <option value="space">Space</option>
+    </select>
+  </div>
+  <div class="input-group">
+    <label for="hPost">Altezza Posteriore (cm):</label>
+    <input id="hPost" type="number" placeholder="Es. 320">
+  </div>
+  <div class="input-group">
+    <label for="hAnt">Altezza Anteriore (cm):</label>
+    <input id="hAnt" type="number" placeholder="Es. 230">
+  </div>
+  <div class="input-group">
+    <label for="sporg">Profondità (cm):</label>
+    <input id="sporg" type="number" placeholder="Es. 600">
+  </div>
+  <button onclick="calcola()">Calcola</button>
+  <div class="result" id="output" style="display:none;"></div>
+
+  <script>
+    function calcola() {
+      const tipo = document.getElementById('tipo').value;
+      const hPost = parseFloat(document.getElementById('hPost').value);
+      const hAnt = parseFloat(document.getElementById('hAnt').value);
+      const sporg = parseFloat(document.getElementById('sporg').value);
+
+      if (isNaN(hPost) || isNaN(hAnt) || isNaN(sporg)) {
+        alert('Inserisci tutti i valori numerici');
+        return;
+      }
+
+      let hPostCorr, hAntCorr, sporgCorr;
+
+      if (tipo === 'modular') {
+        hPostCorr = hPost - 8.5;
+        hAntCorr = hAnt + 9;
+        sporgCorr = sporg - 32.5;
+      } else if (tipo === 'modulina') {
+        hPostCorr = hPost - 8;
+        hAntCorr = hAnt + 12;
+        sporgCorr = sporg - 30.5;
+      } else if (tipo === 'space') {
+        hPostCorr = hPost - 8;
+        hAntCorr = hAnt + 21;
+        sporgCorr = sporg - 16.7;
+      }
+
+      const deltaH = hPostCorr - hAntCorr;
+      const guida = Math.sqrt(deltaH * deltaH + sporgCorr * sporgCorr);
+
+      const output = document.getElementById('output');
+      output.innerHTML = 
+        '<strong>Tipologia: ' + tipo.charAt(0).toUpperCase() + tipo.slice(1) + '</strong><br>' +
+        'Altezza posteriore corretta: ' + hPostCorr.toFixed(1) + ' cm<br>' +
+        'Altezza anteriore corretta: ' + hAntCorr.toFixed(1) + ' cm<br>' +
+        'Sporgenza corretta: ' + sporgCorr.toFixed(1) + ' cm<br>' +
+        'ΔH: ' + deltaH.toFixed(1) + ' cm<br>' +
+        '<strong>Lunghezza guida: ' + guida.toFixed(1) + ' cm</strong>';
+      output.style.display = 'block';
+    }
+  </script>
 
 <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
-      .then(function(reg) {
-        console.log('Service Worker registrato con successo!', reg);
-      }).catch(function(err) {
-        console.log('Registrazione del Service Worker fallita:', err);
+  let deferredPrompt;
+  const installBtn = document.getElementById('installBtn');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = 'block';
+
+    installBtn.addEventListener('click', () => {
+      installBtn.style.display = 'none';
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('Installazione accettata');
+        } else {
+          console.log('Installazione rifiutata');
+        }
+        deferredPrompt = null;
       });
-  }
+    });
+  });
 </script>
 </body>
 </html>
+
