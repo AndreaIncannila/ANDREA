@@ -109,15 +109,16 @@
 </script>
 
 <script>
-  window.addEventListener('DOMContentLoaded', () => {
-    // Se l'app è già installata, nasconde il messaggio
-    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-      const helpMsg = document.getElementById('installHelpMessage');
-      if (helpMsg) {
-        helpMsg.style.display = 'none';
-      }
-    }
+  // Blocca lo scroll verso il basso che attiva il refresh
+  window.addEventListener('touchstart', function(e) {
+    this._startY = e.touches[0].clientY;
   });
+  window.addEventListener('touchmove', function(e) {
+    const currentY = e.touches[0].clientY;
+    if (this._startY < 10 && currentY - this._startY > 10) {
+      e.preventDefault();
+    }
+  }, { passive: false });
 </script>
 </body>
 </html>
