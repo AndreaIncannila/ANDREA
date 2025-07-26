@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guida Pergola</title>
+    <link rel="icon" href="icon-128.png" type="image/png">
+</head>
+<body>
+    <h1>Guida Pergola</h1>
+    <p>Applicazione con icona MP Tende.</p>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+      .then(function(reg) {
+        console.log('Service Worker registrato con successo!', reg);
+      }).catch(function(err) {
+        console.log('Registrazione del Service Worker fallita:', err);
+      });
+  }
+</script>
+</body>
+</html>

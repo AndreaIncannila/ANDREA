@@ -1,0 +1,16 @@
+
+{
+  "name": "Guida Pergola",
+  "short_name": "Guida",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4CAF50",
+  "icons": [
+    {
+      "src": "icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }
+  ]
+}
